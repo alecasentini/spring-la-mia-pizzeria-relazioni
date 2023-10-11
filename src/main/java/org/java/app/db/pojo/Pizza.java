@@ -2,12 +2,14 @@ package org.java.app.db.pojo;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +39,9 @@ public class Pizza {
     @NotNull(message = "Il prezzo è obbligatorio")
     @DecimalMin(value = "0.01", message = "Il prezzo deve essere maggiore di 0")
     private BigDecimal prezzo;
+    
+    @OneToMany(mappedBy="pizza")
+	private List<SpecialOffer> offerteSpeciali;
 	
 	public Pizza() { }
 	public Pizza(String nome, String descrizione, String foto, BigDecimal prezzo) {
@@ -77,6 +82,14 @@ public class Pizza {
 	public void setPrezzo(BigDecimal prezzo) {
 		this.prezzo = prezzo;
 	}
+		
+	public List<SpecialOffer> getOfferteSpeciali() {
+	    return offerteSpeciali;
+	}
+
+	public void setOfferteSpeciali(List<SpecialOffer> offerteSpeciali) {
+	    this.offerteSpeciali = offerteSpeciali;
+	}
 	
 	@Override
 	public String toString() {
@@ -87,4 +100,7 @@ public class Pizza {
 					+ "foto: " + getFoto() + "\n"
 					+ "prezzo: " + getPrezzo();
 	}
-}
+
+
+}	
+	
