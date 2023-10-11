@@ -110,8 +110,10 @@ public class PizzaController {
 
 
 	 @PostMapping("/{pizzaId}/special-offer/create")
-	 public String createSpecialOffer(@PathVariable int pizzaId, @Valid @ModelAttribute SpecialOffer specialOffer, BindingResult bindingResult) {
+	 public String createSpecialOffer(@PathVariable int pizzaId, @Valid @ModelAttribute SpecialOffer specialOffer, BindingResult bindingResult, Model model) {
 	     if (bindingResult.hasErrors()) {
+	         Pizza pizza = pizzaService.findById(pizzaId);
+	         model.addAttribute("pizza", pizza);
 	         return "special-offer-create";
 	     }
 	     Pizza pizza = pizzaService.findById(pizzaId);
@@ -130,8 +132,10 @@ public class PizzaController {
 	 }
 
 	 @PostMapping("/{pizzaId}/special-offer/{offerId}/edit")
-	 public String editSpecialOffer(@PathVariable int pizzaId, @PathVariable int offerId, @Valid @ModelAttribute SpecialOffer specialOffer, BindingResult bindingResult) {
+	 public String editSpecialOffer(@PathVariable int pizzaId, @PathVariable int offerId, @Valid @ModelAttribute SpecialOffer specialOffer, BindingResult bindingResult, Model model) {
 	     if (bindingResult.hasErrors()) {
+	         Pizza pizza = pizzaService.findById(pizzaId);
+	         model.addAttribute("pizza", pizza);
 	         return "special-offer-edit";
 	     }
 	     Pizza pizza = pizzaService.findById(pizzaId);
@@ -140,4 +144,5 @@ public class PizzaController {
 	     specialOfferService.updateSpecialOffer(specialOffer);
 	     return "redirect:/pizzas/" + pizzaId;
 	 }
+
 }

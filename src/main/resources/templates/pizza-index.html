@@ -29,7 +29,7 @@
 		</div>
 		<div class="py-3">
 			<div class="card-deck d-flex flex-wrap gap-5" th:unless="${noPizzas}">
-				<div class="card" style="width: 250px; height: 425px;" th:each="pizza : ${pizzas}" th:object="${pizza}">
+				<div class="card" th:classappend="${!pizza.offerteSpeciali.isEmpty()} ? 'border border-3 border-primary' : ''" style="width: 250px; height: 425px;" th:each="pizza : ${pizzas}" th:object="${pizza}">
 					<div style="height: 150px;">
 						<img class="card-img-top" th:src="@{*{foto}}" th:alt="*{nome}"
 							style="width: 100%; height: 100%;object-fit: cover;" />
@@ -37,8 +37,15 @@
 					<div class="card-body" style="height: 275px;">
 						<h5 class="card-title text-center" th:text="*{nome}">Nome della pizza</h5>
 						<p class="card-text" th:text="*{descrizione}">Descrizione della pizza</p>
-						<p class="card-text"><small class="text-muted"><span th:text="*{prezzo}">Prezzo</span> €</small>
-						</p>
+						<p class="card-text">
+			                <span th:if="${!pizza.offerteSpeciali.isEmpty()}">
+			                    Prezzo: <s><span th:text="${pizza.prezzo}"></span></s>€
+			                    <span th:text="${#numbers.formatDecimal(pizza.prezzo - (pizza.prezzo * pizza.offerteSpeciali[0].scontoPercentuale / 100), 1, 2)}"></span>€
+			                </span>
+			                <span th:if="${pizza.offerteSpeciali.isEmpty()}">
+			                    Prezzo: <span th:text="${pizza.prezzo}"></span> €
+			                </span>
+			            </p>
 						<a th:href="@{/pizzas/{id}(id=*{id})}" class="btn btn-primary">Dettagli</a>
 						<a th:href="@{/pizzas/{id}/edit(id=${pizza.id})}" class="btn btn-primary">Modifica</a>
 						<form th:action="@{/pizzas/{id}/delete(id=*{id})}" method="post">
