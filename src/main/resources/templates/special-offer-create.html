@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+	<meta charset="ISO-8859-1">
+	<title>Crea un'offerta speciale</title>
+</head>
+<body>
+	<div class="container">
+		<h1 class="py-3">Crea un'offerta speciale</h1>
+		
+		<form th:action="@{/pizzas/{id}/special-offer/create(id=${pizza.id})}" th:object="${specialOffer}" method="post">
+		    <div class="mb-3">
+		        <label for="titolo" class="form-label">Titolo</label>
+		        <input type="text" th:field="*{titolo}" class="form-control" id="titolo">
+		        
+		        <div th:if="${#fields.hasErrors('titolo')}" class="alert alert-danger mt-1">
+		            <ul>
+		                <li th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></li>
+		            </ul>
+		        </div>
+		    </div>
+		    
+		    <div class="mb-3">
+			    <label for="scontoPercentuale" class="form-label">Sconto Percentuale</label>
+			    <input type="number" th:field="*{scontoPercentuale}" class="form-control" id="scontoPercentuale" min="0" max="100">
+			    
+			    <div th:if="${#fields.hasErrors('scontoPercentuale')}" class="alert alert-danger mt-1">
+			        <ul>
+			            <li th:each="err : ${#fields.errors('scontoPercentuale')}" th:text="${err}"></li>
+			        </ul>
+			    </div>
+			</div>
+		    
+		    <div class="mb-3">
+		        <label for="dataInizio" class="form-label">Data di inizio</label>
+		        <input type="date" th:field="*{dataInizio}" class="form-control" id="dataInizio">
+		        
+		        <div th:if="${#fields.hasErrors('dataInizio')}" class="alert alert-danger mt-1">
+		            <ul>
+		                <li th:each="err : ${#fields.errors('dataInizio')}" th:text="${err}"></li>
+		            </ul>
+		        </div>
+		    </div>
+		    
+		    <div class="mb-3">
+		        <label for="dataFine" class "form-label">Data di fine</label>
+		        <input type="date" th:field="*{dataFine}" class="form-control" id="dataFine">
+		        
+		        <div th:if="${#fields.hasErrors('dataFine')}" class="alert alert-danger mt-1">
+		            <ul>
+		                <li th:each="err : ${#fields.errors('dataFine')}" th:text="${err}"></li>
+		            </ul>
+		        </div>
+		    </div>
+		    
+		    <button type="submit" class="btn btn-primary">Crea</button>
+		</form>
+		
+	</div>
+
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

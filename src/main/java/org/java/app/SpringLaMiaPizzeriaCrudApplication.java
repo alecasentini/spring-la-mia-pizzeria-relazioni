@@ -42,26 +42,29 @@ public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner {
 		pizzaService.save(pizza5);
 		
 		SpecialOffer offer1 = new SpecialOffer();
-        offer1.setDataInizio(LocalDate.now());
-        offer1.setDataFine(LocalDate.now().plusDays(3));
-        offer1.setTitolo("Offerta Speciale 1");
-        offer1.setPizza(pizza1);
+		offer1.setDataInizio(LocalDate.now());
+		offer1.setDataFine(LocalDate.now().plusDays(3));
+		offer1.setTitolo("Offerta Speciale 1");
+		offer1.setScontoPercentuale(new BigDecimal("10.0"));
+		offer1.setPizza(pizza1);
 
-        SpecialOffer offer2 = new SpecialOffer();
-        offer2.setDataInizio(LocalDate.now());
-        offer2.setDataFine(LocalDate.now().plusDays(7));
-        offer2.setTitolo("Offerta Speciale 2");
-        offer2.setPizza(pizza2);
+		SpecialOffer offer2 = new SpecialOffer();
+		offer2.setDataInizio(LocalDate.now());
+		offer2.setDataFine(LocalDate.now().plusDays(7));
+		offer2.setTitolo("Offerta Speciale 2");
+		offer2.setScontoPercentuale(new BigDecimal("20.0"));
+		offer2.setPizza(pizza2);
 
-        SpecialOffer offer3 = new SpecialOffer();
-        offer3.setDataInizio(LocalDate.now());
-        offer3.setDataFine(LocalDate.now().plusDays(14));
-        offer3.setTitolo("Offerta Speciale 3");
-        offer3.setPizza(pizza3);
+		SpecialOffer offer3 = new SpecialOffer();
+		offer3.setDataInizio(LocalDate.now());
+		offer3.setDataFine(LocalDate.now().plusDays(14));
+		offer3.setTitolo("Offerta Speciale 3");
+		offer3.setScontoPercentuale(new BigDecimal("25.0"));
+		offer3.setPizza(pizza3);
 
-        specialOfferService.createSpecialOffer(offer1);
-        specialOfferService.createSpecialOffer(offer2);
-        specialOfferService.createSpecialOffer(offer3);
+		specialOfferService.createSpecialOffer(offer1);
+		specialOfferService.createSpecialOffer(offer2);
+		specialOfferService.createSpecialOffer(offer3);
 
         System.out.println("Inserimento OK!");
 	}

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.java.app.db.pojo.Pizza;
 import org.java.app.db.serv.PizzaService;
+import org.java.app.db.pojo.SpecialOffer;
+import org.java.app.db.serv.SpecialOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,9 @@ public class PizzaController {
 
 	@Autowired
 	private PizzaService pizzaService;
+	
+	@Autowired
+    private SpecialOfferService specialOfferService;
 	
 	@GetMapping
 	public String getIndex(@RequestParam(value = "nome", required = false) String nome, Model model) {
@@ -93,6 +98,46 @@ public class PizzaController {
 	     return "redirect:/pizzas";
 	 }
 
+	 //Special Offer
+	 
+	 @GetMapping("/{pizzaId}/special-offer/create")
+	 public String showCreateSpecialOfferForm(@PathVariable int pizzaId, Model model) {
+	     Pizza pizza = pizzaService.findById(pizzaId);
+	     model.addAttribute("pizza", pizza);
+	     model.addAttribute("specialOffer", new SpecialOffer());
+	     return "special-offer-create";
+	 }
 
 
+	 @PostMapping("/{pizzaId}/special-offer/create")
+	 public String createSpecialOffer(@PathVariable int pizzaId, @Valid @ModelAttribute SpecialOffer specialOffer, BindingResult bindingResult) {
+	     if (bindingResult.hasErrors()) {
+	         return "special-offer-create";
+	     }
+	     Pizza pizza = pizzaService.findById(pizzaId);
+	     specialOffer.setPizza(pizza);
+	     specialOfferService.createSpecialOffer(specialOffer);
+	     return "redirect:/pizzas/" + pizzaId;
+	 }
+
+	 @GetMapping("/{pizzaId}/special-offer/{offerId}/edit")
+	 public String showEditSpecialOfferForm(@PathVariable int pizzaId, @PathVariable int offerId, Model model) {
+	     Pizza pizza = pizzaService.findById(pizzaId);
+	     SpecialOffer specialOffer = specialOfferService.getSpecialOfferById(offerId);
+	     model.addAttribute("pizza", pizza);
+	     model.addAttribute("specialOffer", specialOffer);
+	     return "special-offer-edit";
+	 }
+
+	 @PostMapping("/{pizzaId}/special-offer/{offerId}/edit")
+	 public String editSpecialOffer(@PathVariable int pizzaId, @PathVariable int offerId, @Valid @ModelAttribute SpecialOffer specialOffer, BindingResult bindingResult) {
+	     if (bindingResult.hasErrors()) {
+	         return "special-offer-edit";
+	     }
+	     Pizza pizza = pizzaService.findById(pizzaId);
+	     specialOffer.setPizza(pizza);
+	     specialOffer.setId(offerId);
+	     specialOfferService.updateSpecialOffer(specialOffer);
+	     return "redirect:/pizzas/" + pizzaId;
+	 }
 }
