@@ -2,6 +2,7 @@ package org.java.app.db.pojo;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -9,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -42,15 +44,19 @@ public class Pizza {
     
     @OneToMany(mappedBy="pizza")
 	private List<SpecialOffer> offerteSpeciali;
+    
+    @ManyToMany
+	private List<Ingredient> ingredients;
 	
-	public Pizza() { }
-	public Pizza(String nome, String descrizione, String foto, BigDecimal prezzo) {
-	
-		setNome(nome);
-		setDescrizione(descrizione);
-		setFoto(foto);
-		setPrezzo(prezzo);
-	}
+    public Pizza() { }
+    public Pizza(String nome, String descrizione, String foto, BigDecimal prezzo, Ingredient... ingredients) {
+
+    	setNome(nome);
+    	setDescrizione(descrizione);
+    	setFoto(foto);
+    	setPrezzo(prezzo);
+    	setIngredients(Arrays.asList(ingredients));
+    }
 	
 	public int getId() {
 		return id;
@@ -86,9 +92,30 @@ public class Pizza {
 	public List<SpecialOffer> getOfferteSpeciali() {
 	    return offerteSpeciali;
 	}
-
 	public void setOfferteSpeciali(List<SpecialOffer> offerteSpeciali) {
 	    this.offerteSpeciali = offerteSpeciali;
+	}
+	
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
+	public boolean hasIngredient(Ingredient ingredient) {
+		if (getIngredients() == null) return false;
+		for (Ingredient i : getIngredients()) 
+			if (ingredient.getId() == i.getId())
+				return true;
+		return false;
+	}
+	public void addIngredient(Ingredient ingredient) {
+
+		getIngredients().add(ingredient);
+	}
+	public void removeIngredient(Ingredient ingredient) {
+
+		getIngredients().remove(ingredient);
 	}
 	
 	@Override

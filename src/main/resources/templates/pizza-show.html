@@ -13,9 +13,15 @@
 	    <div style="width: 500px; height: 500px;">
 	        <img class="card-img-top" th:src="${pizza.foto}" th:alt="${pizza.nome}"
 	            style="width: 100%; height: 100%;object-fit: cover;" />
-	        <div class="card-body">
-	            <p class="card-text py-3"><strong>Ingredienti:</strong> <span th:text="${pizza.descrizione}"></span></p>
-	
+	        <div class="card-body py-3">
+	            <p class="card-text py-3 mb-0"><strong>Descrizione:</strong> <span th:text="${pizza.descrizione}"></span></p>
+				<h2 class="py-3">Ingredienti:</h2>
+			    <p class="card-text py-3">
+			        <strong>Ingredienti:</strong> 
+			        <span th:each="ingredient, iterStat : ${pizza.ingredients}" th:remove="tag">
+			            <span th:text="${ingredient.name}"></span><th:block th:if="${!iterStat.last}">, </th:block>
+			        </span>
+			    </p>
 	            <!-- Prezzo -->
 	            <p class="card-text">
 	                <span th:if="${!pizza.offerteSpeciali.isEmpty()}">

@@ -3,7 +3,9 @@ package org.java.app.mvc;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.java.app.db.pojo.Ingredient;
 import org.java.app.db.pojo.Pizza;
+import org.java.app.db.serv.IngredientService;
 import org.java.app.db.serv.PizzaService;
 import org.java.app.db.pojo.SpecialOffer;
 import org.java.app.db.serv.SpecialOfferService;
@@ -31,6 +33,9 @@ public class PizzaController {
 	
 	@Autowired
     private SpecialOfferService specialOfferService;
+	
+	@Autowired
+    private IngredientService ingredientService;
 	
 	@GetMapping
 	public String getIndex(@RequestParam(value = "nome", required = false) String nome, Model model) {
@@ -61,7 +66,9 @@ public class PizzaController {
 	
 	@GetMapping("/create")
     public String getNewPizzaForm(Model model) {
+		List<Ingredient> ingredients =ingredientService.findAll();
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredients", ingredients);
         return "pizza-create";
     }
 
@@ -76,8 +83,10 @@ public class PizzaController {
 	
 	@GetMapping("/{id}/edit")
 	public String getEditPizzaForm(@PathVariable int id, Model model) {
-	    Pizza pizza = pizzaService.findById(id);
+		List<Ingredient> ingredients = ingredientService.findAll();
+		Pizza pizza = pizzaService.findById(id);
 	    model.addAttribute("pizza", pizza);
+	    model.addAttribute("ingredients", ingredients);
 	    return "pizza-edit"; 
 	}
 	 
