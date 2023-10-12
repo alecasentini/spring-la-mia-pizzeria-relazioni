@@ -34,6 +34,9 @@
 					<div style="height: 150px;">
 						<img class="card-img-top" th:src="@{*{foto}}" th:alt="*{nome}"
 							style="width: 100%; height: 100%;object-fit: cover;" />
+						 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:if="${!pizza.offerteSpeciali.isEmpty()}">
+				            OFFERTA
+				        </span>
 					</div>
 					<div class="card-body" style="height: 275px;">
 						<h5 class="card-title text-center" th:text="*{nome}">Nome della pizza</h5>
